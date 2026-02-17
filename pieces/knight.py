@@ -8,7 +8,16 @@ class Knight(Piece):
     def valid_moves(self, grid):
         moves = []
         current_col, current_row = self.position
-        directions = [(1, 2), (-1, 2), (2, 1), (-2, 1), (-1, -2), (-2, -1)]
+        directions = [
+            (1, 2),
+            (-1, 2),
+            (2, 1),
+            (-2, 1),
+            (-1, -2),
+            (-2, -1),
+            (1, -2),
+            (2, -1),
+        ]
 
         for dh, dv in directions:
             new_col = current_col + dh
