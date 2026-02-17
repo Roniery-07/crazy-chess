@@ -10,7 +10,7 @@ from pieces.knight import Knight
 
 
 class Board(tk.Canvas):
-    def __init__(self, parent, size, **kwarg):
+    def __init__(self, parent, size, turn="white", **kwarg):
         super().__init__(parent, width=size, height=size, **kwarg)
         self.size = size
         self.ROWS_NUMBER = 8
@@ -21,6 +21,7 @@ class Board(tk.Canvas):
         ]
         self.selected_piece = None
         self.selected_pos = None
+        self.turn = turn
 
         self.bind("<Button-1>", self.handle_click)
         self.setup_board()
@@ -73,14 +74,17 @@ class Board(tk.Canvas):
         clicked_piece = self.grid[y][x]
         if self.selected_piece is None:
             if clicked_piece is not None:
-                print(f"You selected {self.grid[y][x].piece_type} ")
-                self.selected_piece = clicked_piece
-                self.selected_pos = (x, y)
-                self.render()
+                if clicked_piece.color == self.turn:
+                    print(f"You selected {self.grid[y][x].piece_type} ")
+                    self.selected_piece = clicked_piece
+                    self.selected_pos = (x, y)
+                    self.render()
         else:
+            # if self.selected_piece.color == self.turn:
             self.move_piece(self.selected_pos, (x, y))
             self.selected_piece = None
             self.selected_pos = None
+            self.turn = "white" if self.turn != "white" else "black"
             self.render()
 
     def move_piece(self, start_pos, end_pos):
